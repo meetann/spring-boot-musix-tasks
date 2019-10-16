@@ -2,6 +2,8 @@ package com.stackroute.controller;
 
 
 import com.stackroute.domain.Track;
+import com.stackroute.exceptions.TrackAlreadyExistsException;
+import com.stackroute.exceptions.TrackNotFoundException;
 import com.stackroute.service.TrackService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class TrackController {
         try {
             trackService.saveTrack(track);
             responseEntity = new ResponseEntity<String>("Successfully Created!",HttpStatus.CREATED);
-        }catch (Exception e){
+        }catch (TrackAlreadyExistsException e){
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return  responseEntity;
@@ -51,11 +53,22 @@ public class TrackController {
         try {
             trackService.deleteTrack(track);
             responseEntity = new ResponseEntity<String>("Successfully Deleted!",HttpStatus.ACCEPTED);
-        }catch (Exception e){
+        }catch (TrackNotFoundException e){
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
         return responseEntity;
     }
+
+//    @DeleteMapping("track/{trackId}")
+//    public void deleteTrack(@PathVariable("trackId") int trackId) {
+//        ResponseEntity responseEntity;
+//        try {
+//            trackService.deleteTrack(trackId);
+//            responseEntity = new ResponseEntity<String>("Successfully deleted!", HttpStatus.OK);
+//        } catch (TrackNotFoundException e) {
+//            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+//        }
+//    }
 
     @PutMapping("track/{id}/{comment}")
     public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
