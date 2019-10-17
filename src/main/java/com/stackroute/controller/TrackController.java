@@ -5,12 +5,12 @@ import com.stackroute.domain.Track;
 import com.stackroute.exceptions.TrackAlreadyExistsException;
 import com.stackroute.exceptions.TrackNotFoundException;
 import com.stackroute.service.TrackService;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 
 @RequestMapping("/api/v1/")
 @RestController
@@ -43,6 +43,17 @@ public class TrackController {
             responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(),HttpStatus.OK);
         }catch (Exception e){
             responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+        return responseEntity;
+    }
+
+    @GetMapping("/name/{trackName}")
+    public ResponseEntity<?> getTrackByName(@PathVariable String trackName){
+        ResponseEntity responseEntity;
+        try{
+            responseEntity = new ResponseEntity<Track>(trackService.getTrackByName(trackName),HttpStatus.CREATED);
+        }catch (TrackNotFoundException e){
+            responseEntity = new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
         }
         return responseEntity;
     }

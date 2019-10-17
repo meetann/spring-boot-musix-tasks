@@ -11,19 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Qualifier("trackServiceImpl")
-
+@Qualifier("trackServiceImplDummy")
+@Primary
 @Service
-public class TrackServiceImpl implements TrackService {
+public class TrackServiceImplDummy implements TrackService {
 
     private TrackRepository trackRepository;
 
     @Autowired
-    public TrackServiceImpl(TrackRepository trackRepository){
+    public TrackServiceImplDummy(TrackRepository trackRepository){
         this.trackRepository=trackRepository;
     }
     @Override
     public Track saveTrack(Track track) throws TrackAlreadyExistsException {
+        System.out.println("this is dummy");
         if (trackRepository.existsById(track.getId())){
             throw new TrackAlreadyExistsException("Track Already exists");
         }
@@ -35,11 +36,13 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> getAllTracks() {
+        System.out.println("this is dummy");
         return trackRepository.findAll();
     }
 
     @Override
     public Track getTrackById(int id) {
+        System.out.println("this is dummy");
         Track receivedTrack = trackRepository.findById(id).get();
         return receivedTrack;
     }
@@ -54,6 +57,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public void deleteTrack(Track track) throws TrackNotFoundException {
+        System.out.println("this is dummy");
         if (trackRepository.existsById(track.getId())) {
             trackRepository.deleteById(track.getId());
         }
@@ -64,6 +68,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track updateTrack(int id, String comment) {
+        System.out.println("this is dummy");
         Track track = trackRepository.findById(id).get();
         track.setComments(comment);
         Track updatedTrack = trackRepository.save(track);

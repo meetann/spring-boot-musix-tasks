@@ -13,5 +13,7 @@ public class WebConfiguration {
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
         registrationBean.addUrlMappings("/console/*");
         return registrationBean;
+
+
     }
 }

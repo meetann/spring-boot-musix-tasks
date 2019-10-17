@@ -1,15 +1,17 @@
 package com.stackroute.domain;
 
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class Track {
     @Id
-    int id;
-    String trackName;
-    String comments;
+    private int id;
+    private String trackName;
+    private String comments;
 
     public Track(){
 
